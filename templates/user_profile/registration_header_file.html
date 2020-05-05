@@ -1,0 +1,32 @@
+{% load i18n staticfiles %}
+
+     <div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12">
+        <h2>{% trans 'Create New Account' %}</h2>
+        <div class="choose_your_role">
+            <div class="role_container">
+            
+                <div class="steps  active selected  d-flex">
+                    <div class="steps1">
+                        <span>{% if 'registration' in request.path %}01{% else %}<img src="{% static 'images/tick_mark.svg' %}"  class="tick_mark"
+                                                    alt="if you click the field the tick will appear"> {% endif %}</span>
+                    </div>
+                    <p>{% trans 'Select your Role Here' %}</p>
+                </div>
+                <div class="steps {% if 'profile_info' in request.path or 'documentation_upload' in request.path %} active selected{% endif %} d-flex">
+                    <div class="steps1">
+                        <span>{% if 'documentation_upload' in request.path %}<img src="{% static 'images/tick_mark.svg' %}"  class="tick_mark"
+                                                    alt="if you click the field the tick will appear">{% else %}02{% endif %}</span>
+                    </div>
+                    <p>{% trans 'Add ypur Details' %}</p>
+                </div>
+                <div class="steps {% if 'documentation_upload' in request.path  %} active selected{% endif %} d-flex">
+                    <div class="steps1 ">
+                        <span>03</span>
+                    </div>
+                    <p>{% trans 'Upload Document' %}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

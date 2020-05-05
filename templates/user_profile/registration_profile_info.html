@@ -1,0 +1,184 @@
+{% extends "base_before_login.html" %}
+{% load i18n staticfiles %}
+{% block content %}
+<!-- banner starts -->
+            <div class="banner_section1 create_section">
+                <div class="create_new_acc_sec">
+                    <form id="profile_info" class="login_form_container"  action="{% url 'user_profile:profile_info' %}" method="post">{% csrf_token %}
+                      {% include "user_profile/registration_header_file.html" %}
+                                <div class="select_option">
+                                    <div class="form_container">
+                                     <div class="col-12">
+                                        <div class="login_form">
+                                             {% if message %}<div class="alert alert-danger" role="alert">
+                                                 {{ message }}</div>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                        <div class="row">
+                                            
+                                            <div class="col-sm-12 col-md-3 col-lg-3">
+                                                <div class="form-group">
+                                                   <label>{% trans 'First Name' %} <em>*</em></label>
+                                                   <input type="text" placeholder="" class="form-control" value="{% if first_name %}{{first_name}}{% elif additional_details.user.first_name %}{{additional_details.user.first_name}}{% endif %}" name="first_name">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-3 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>{% trans 'Last Name' %} <em>*</em></label>
+                                                    <input type="text" placeholder="" class="form-control" value="{% if last_name %}{{last_name}}{% elif additional_details.user.last_name %}{{ additional_details.user.last_name }}{% endif %}" name="last_name">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-3 col-lg-3">
+                                                <div class="form-group">
+                                                     <label>{% trans 'Middle Name' %}</label>
+                                                    <input type="text" placeholder="" class="form-control" value="{% if middle_name %}{{middle_name}}{% endif %}" name="middle_name">
+                                                </div>
+                                             </div>
+                                               <div class="col-sm-12 col-md-3 col-lg-3">
+                                                 <div class="form-group">
+                                                   <label>{% trans 'Mobile Number' %} <em>*</em></label>
+                                                   <input type="text" placeholder="" class="form-control" maxlength="10" value="{% if mobile_no %}{{mobile_no}}{% elif additional_details.mobile_no %}{{ additional_details.mobile_no }}{% endif %}" name="mobile_no">
+                                                </div>
+                                                </div>
+                                            </div>
+                                        <div class="row">
+                                                <div class="col-sm-12 col-md-3 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>{% trans 'State' %} <em>*</em></label>
+                                                    <select class="form-control state_name" name="state_name">
+                                                        <option value="">Please Select State</option>
+                                                        {% for i in state %}
+                                                            <option value="{{i.id}}"{% if state_id == i.id %}selected{% elif additional_details.state_id == i.id %}selected{% endif %}>{{i.state_name}}</option>
+                                                        {% endfor %}
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            
+                                            {% if city_name and not message%}
+                                            <div class="col-sm-12 col-md-3 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>{% trans 'City' %} <em>*</em></label>
+                                                    <select class="form-control" name="city_name" id="city_id">
+                                                        <option value="">Please Select City</option>
+                                                        {% for i in city_name %}
+                                                            {% if i.state_id == additional_details.state_id %}
+                                                                 <option value="{{i.id}}" {% if i.id == city_id %} selected {% elif i.id == additional_details.city_id %}selected {% endif %}>{{i.city_name }}</option>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    </select>                                                
+                                                </div> 
+                                            </div>
+                                            {% elif city_name and message %}
+                                            <div class="col-sm-12 col-md-3 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>{% trans 'City' %} <em>*</em></label>
+                                                    <select class="form-control" name="city_name" id="city_id">
+                                                        <option value="">Please Select City </option>
+                                                        {% for i in city_name %}
+                                                                 <option value="{{i.id}}" {% if i.id == city_id %} selected {% elif i.id == additional_details.city_id %}selected {% endif %}>{{i.city_name }}</option>
+                                                        {% endfor %}
+                                                    </select>                                                
+                                                </div> 
+                                            </div>
+                                            {% else %}
+                                                <div class="col-sm-12 col-md-3 col-lg-3">
+                                                <div class="form-group">
+                                                    <label>{% trans 'City' %} <em>*</em></label>
+                                                    <select class="form-control" name="city_name" id="city_id">
+                                                        <option value="">Please Select City</option>
+                                                    </select>                                                
+                                                </div>
+                                            </div>
+                                            {% endif %}
+                                            <div class="col-sm-12 col-md-3 col-lg-3">
+                                                <div class="form-group">
+                                                     <label>{% trans 'Email' %} <em>*</em></label>
+                                                    <input type="text" placeholder="" class="form-control" value="{% if email %}{{email}}{% elif additional_details.user.email %}{{ additional_details.user.email }}{% endif %}" name="email">
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-3 col-lg-3">
+                                                <div class="form-group">
+                                                   <label>{% trans 'Pincode' %} <em>*</em></label>
+                                                   <input type="text" placeholder="" class="form-control" maxlength="6" value="{% if pincode %}{{pincode}}{% elif additional_details.pincode %}{{ additional_details.pincode }}{% endif %}" name="pincode">
+                                                </div>
+                                            </div>
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                                <div class="form-group">
+                                                   <label>{% trans 'Address Line 1' %} <em>*</em></label>
+                                                   <textarea  placeholder="" class="form-control" value="" name="address_line1">{% if address_line1 %}{{address_line1}}{% elif additional_details.address_line1 %}{{ additional_details.address_line1 }}{% endif %}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                                <div class="form-group">
+                                                   <label>{% trans 'Address Line 2' %} <em>*</em></label>
+                                                   <textarea  placeholder="" class="form-control" value="" name="address_line2">{% if address_line2 %}{{address_line2}}{% elif additional_details.address_line2 %}{{ additional_details.address_line2 }}{% endif %}</textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="group_id" value="{{group_id}}">
+                                    <input type="hidden" name="addition_profile_obj" value="{{additional_details.id}}">
+                                     <input type="hidden" name="user_id" value="{{additional_details.user_id}}">
+                                    <div class="continue_button">
+                                    <button class="go_back" onclick="location.href='{% url 'user_profile:registration' %}'" type="button">{% trans 'Go Back' %} </button>
+                                    <button class="next"  type="submit">{% trans 'Next' %} </button>
+                                    </div>
+                                </div>
+                    </form>
+                </div>
+            </div>
+        <!-- banner ends -->
+{% endblock %}
+{% block jsfilesurls %}
+<script type="text/javascript" src="{% static 'js/validation.js'%}"></script>
+{% endblock %}
+{% block custom-js %}
+    /********* Based on the tab index adding class of active - starts *******/
+$('button').focus(function() {
+    $("button").removeClass("active");
+    $("this").addClass("active");
+    });
+    
+    /************On Change of Qualification Add more showing an specilization starts here***********/
+$(document.body).on('change',".state_name",function(){
+    var Url = '{% url 'user_profile:get_city_name' %}';
+    var state_name=$("select[name='state_name']").val();
+    $('#city_id').empty();
+    $.ajax({
+        url:Url,
+        method:'get',
+        dataType: 'json',
+        data:{ csrfmiddlewaretoken: '{{ csrf_token }}', state_name:state_name},
+        success: function(data){
+                    var toAppend="";
+                    toAppend += "<option value='' selected>Select City Name</option>";
+                    if (data != 'fail'){
+                         $.each(data, function(index0, l) {
+                                $.each(l, function(index1, n) {
+                                    toAppend += '<option value="' + n.id + '">'+n.city_name+'</option>';
+                        });
+                    });
+                     $('#city_id').append(toAppend);
+                    }
+                }
+        });
+});
+
+/********click on city name showing an error message starts here ************/
+$(document.body).on('click',"#city_id",function(){
+    city_value = $('select[name="state_name"] option:selected').val();
+        if (city_value  ){
+            $('#state-error').remove();
+            return true;
+        }else{
+            $('#state-error').remove();
+            $('#city_id').after('<label id="state-error" class="error" for="state">Please select State Name </label>');
+            return false;
+        }
+});
+/********click on city name showing an error message ends here ************/
+
+{% endblock %}        

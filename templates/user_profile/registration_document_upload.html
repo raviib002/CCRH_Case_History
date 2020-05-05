@@ -1,0 +1,205 @@
+{% extends "base_before_login.html" %}
+{% load i18n staticfiles  common_templatetags %}
+{% block content %}
+<div class="banner_section1 create_section">
+    <div class="create_new_acc_sec">
+          <form id="document_upload" class="login_form_container"  action="{% url 'user_profile:documentation_upload' %}" method="post" enctype="multipart/form-data">{% csrf_token %}
+                <div class="select_option">
+                    <div class="form_container">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>{{ form.pract_regis_body.label }} <em>*</em></label>
+                                    {{ form.pract_regis_body }}
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6 state_name_reg" style="display:none">
+                                <div class="form-group">
+                                    <label>{% trans 'State' %} <em>*</em></label>
+                                    <select class="form-control state_name" name="state_name" required="true">
+                                        <option value="">Please Select State</option>
+                                        {% for i in state %}
+                                            <option value="{{i.id}}"{% if state_id == i.id %}selected{% endif %}>{{i.state_name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>{{ form.pract_reg_no.label }} <em>*</em></label>
+                                    {{ form.pract_reg_no }}
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group drag_drop_conatiner">
+                                    <p>{% trans 'Registration Certificate' %}</p>
+                                    <div class="drag_drop">
+                                        <div class="drop_content">
+                                            <img src="{% static "images/drag_drop.svg" %}" alt="you can drag an drop the content">
+                                            <span>{% trans 'Drag and drop or' %} <a id="browse" class="my_class"></a> <input type="file" name="data" id="data" accept=".png,.jpg,.svg,.pdf,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="form-control ">
+                                            <p class="resume_note">{% trans 'Accepted file formats: PDF, DOC, DOCX,PNG, JPG,SVG' %}</p></span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ol-sm-12 col-md-12 col-lg-12">
+                                <div class="form-group">
+                                    <label>{% trans 'Type of Clinical Setting' %} <em>*</em></label>
+                                    <div class="type_clinical_block">
+                                    {% for i in clinical_setting %}
+                                        <label class="check_form">
+                                            <input type="checkbox" value="{{i.id}}" name="typeclinical_{{forloop.counter}}" class="addcase_checkbox" required="required">
+                                            <span class="add_check"></span><span>{{i.cs_name }}</span>
+                                        </label>
+                                    {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="ol-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>{% trans 'Clinical Setting' %} <em>*</em></label>
+                                    <select class="form-control clinical_settings" name="clinical_settings" id="clinical_settings_id">
+                                        <option value="">Select Clinical Setting</option>
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="6">6</option>
+                                        <option value="7">7</option>
+                                        <option value="8">8</option>
+                                        <option value="9">9</option>
+                                        <option value="10">10</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-sm-12 col-md-6 col-lg-6">
+                                <div class="form-group">
+                                    <label>{{ form.affiliation.label }} <em>*</em></label>
+                                    {{ form.affiliation }}
+                                </div>
+                            </div>
+                      </div>
+                  </div>
+                  <div class="add_here_doc_val row"></div>  
+                  <div class="col-sm-12 col-md-12 col-lg-12 registration_note">
+                        <div class="form-group">
+                            <div class="form-group">
+                               <p><span>Note: </span>Plase read the submission guidelines carefully before submitting the cases. Cases that are not in the required format  would be summarily rejected.</br> I agree to the given submission lines<em>*</em></p>
+                                <label class="accepted_checkbox" for="id_tnc">{{ form.tnc }}<span>{{ form.tnc.label }}</span></label>
+                            </div>
+                        </div>
+                    </div>
+                  <input type="hidden" name="user_id" value="{{profile_user_id}}">
+                  <div class="continue_button">
+                      <button class="go_back" onclick="location.href='{% url 'user_profile:profile_info' %}'" type="button">{% trans 'Go Back' %} </button>
+                      <button type="submit" class="next">{% trans 'Finish' %}</button>
+                  </div>
+              </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+{% block custom-js %}
+
+/********Based on the registration body showing state dropdown Starts herer*********/
+$(document.body).on('change',".pract_regis_body",function(){
+    regg_body_value = $(this).find(":selected").text()
+    if(regg_body_value == "STATE"){
+        $(".state_name_reg").show();
+    }else{
+        $(".state_name_reg").hide();
+    }
+});
+/********Based on the registration body showing state dropdown Ends herer*********/
+
+$(".clinical_settings").change(function() {
+  var id = $(this).val();
+$(".add_here_doc_val").empty();
+$.each(new Array(parseInt(id)), function(n){
+    var m = n+1;
+    $(".add_here_doc_val").append('<div class="col-sm-12 col-md-6 col-lg-6 clinincal_name_2" style="" >\
+                <div class="form-group">\
+                    <label>{% trans 'Clinic / Hospital Name ' %} '+m+'  <em>*</em></label>\
+                    <input type="text" placeholder="" class="form-control"  name="clinicalname_'+m+'" required="true">\
+                </div>\
+                </div>\
+                <div class="col-sm-12 col-md-6 col-lg-6">\
+                    <div class="form-group">\
+                        <label>{% trans 'Clinic / Hospital Address' %} '+m+'    <em>*</em></label>\
+                        <input type="text" placeholder="" class="form-control"  name="clinicaladress_'+m+'" required="true">\
+                    </div>\
+                </div>\
+            ');
+        }
+    );
+});
+   
+   //for pdf|DOC|DOCX file upload
+    jQuery.validator.addMethod("accept", function(value, element, param) {
+     return value.match(new RegExp("." + param + "$"));
+    });
+// validation for Document Upload starts here
+    validator = $("#document_upload").validate({
+        rules: {
+            registration_body: {
+                required: true,
+            },
+             registration_no: {
+                required: true,
+            },
+            data : {
+                accept: "(docx?|doc|jpg|png|svg|pdf|PDF|DOC|DOCX?)"
+            },
+            type_of_clinical_test : {
+                required: true,
+            },
+            clinical_settings: {
+                required: true,
+            },
+            clinical_name_1 :{
+                required: true,
+            },
+            clinical_adress_1 : {
+                required : true,
+            },
+            tnc : {
+                required : true,
+            }, 
+           
+        },
+        messages: {
+             registration_body: {
+               required: "This field is required",
+            },
+             registration_no: {
+                required: "This field is required",                
+            },
+            data : {
+                accept : "Please upload valid file",
+            },
+            type_of_clinical_test: {
+                 required: "This field is required",  
+            },
+            clinical_settings: {
+                required: "This field is required",
+            },
+            clinical_name_1 :{
+                required: "This field is required",
+            },
+            clinical_adress_1 : {
+                required: "This field is required",
+            },
+            tnc : {
+                required: "This field is required",
+            },
+        },
+   });
+   
+/***************For terms and condition click on checkbox starts here*************/
+    $('.check').click(function() {
+        $('.check').not(this).prop('checked', false);
+    });
+
+
+{% endblock %}    

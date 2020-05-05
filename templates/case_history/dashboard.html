@@ -1,0 +1,279 @@
+{% extends 'base.html' %}
+{% load i18n staticfiles %}
+{% block staticurls %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+{% endblock %}
+{% block content %}
+        <div class="dashboard_wrapper">
+            <div class="dashboard_container">
+                <div class="dashboard_heading d-flex justify-content-between">
+                    <div class="title">
+                        <h2>{% trans 'My Dashboard' %}</h2>
+                        <span>{% trans 'My Dashboard' %}</span>
+                    </div>
+                    <div class="button">
+                        <button class="addcase">+&nbsp;&nbsp; {% trans 'Add Case' %}</button>
+                    </div>
+                </div>
+                <div class="row dashboard_row">
+                    <div class="col-sm-12 col-md-3 col-lg-3 d-flex dashboard">
+                        <div class="dashboard_content first_dashboard d-flex justify-content-between">
+                            <span class="orange_circle"></span>
+                            <div class="title">
+                                <span>{% trans 'Total No of Cases' %}</span>
+                                <span>{% trans '1029' %}</span>
+                            </div>
+                            <div class="images">
+                                <img src={% static "images/patient_cases.svg" %} alt="total no of patient cases">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3 col-lg-3 d-flex dashboard">
+                        <div class="dashboard_content d-flex justify-content-between">
+                            <div class="images">
+                                <img src={% static "images/under_review_patient.svg" %}
+                                    alt="total no of patient cases under review">
+                            </div>
+                            <div class="title">
+                                <span>200</span>
+                                <span>{% trans 'Under Review' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3 col-lg-3 d-flex dashboard">
+                        <div class="dashboard_content d-flex justify-content-between">
+                            <div class="images">
+                                <img src={% static "images/accepted_cases.svg" %} alt="total no of patient cases are accepted">
+                            </div>
+                            <div class="title">
+                                <span>523</span>
+                                <span>{% trans 'Accepted Cases' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 col-md-3 col-lg-3 d-flex dashboard">
+                        <div class="dashboard_content d-flex justify-content-between">
+                            <div class="images">
+                                <img src={% static "images/not_accepted_cases.svg" %}
+                                    alt="total no of patient cases are not accepted">
+                            </div>
+                            <div class="title">
+                                <span>{% trans '175' %}</span>
+                                <span>{% trans 'Not Accepted Cases' %}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table_container">
+                    <div class="my_table" id="dashboard">
+                        <div class="table_header d-flex justify-content-between">
+                            <div class="search_div">
+                                <input type="text" class="search_div" id="mySearch" placeholder="My Search...">
+                                <button class="search">{% trans 'Search' %}</button>
+                            </div>
+                            <a href="#" class="advance_filter" id="adv_filter"><img src={% static "images/adavance_filter.svg" %}
+                                    alt="advance filter images">&nbsp;&nbsp;{% trans 'Advance Filter' %}</a>
+                        </div>
+                        <div class="advance_filter_block">
+                            <div class="advance_header d-flex justify-content-between">
+                                <h2>{% trans 'Advance Filter' %}</h2>
+                                <a href="#" class="advance_filter"><span>+</span>&nbsp;&nbsp;{% trans 'Close Filter' %}</a>
+                            </div>
+                            <form class="advance_container" action="{% url 'case_history:dashboard' %}" method="post">{% csrf_token %}
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label>{% trans 'Case ID' %}</label>
+                                            <input type="text" class="form-control" name="case_id" value="{% if case_id %}{{ case_id }}{% endif %}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label>{% trans 'Patient Name' %}</label>
+                                            <input type="text" class="form-control" name="pat_name" value="{% if patient_name %}{{ patient_name }}{% endif %}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label>{% trans 'Start Date' %}</label>
+                                            <input type="text" class="form-control from_date" name="strt_date" value="{% if start_date %}{{ start_date }}{% endif %}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label>{% trans 'End Date' %}</label>
+                                            <input type="text" class="form-control from_date" name="end_date" value="{% if end_date %}{{ end_date }}{% endif %}">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label>{% trans 'Gender' %}</label>
+                                            <div class="select_gender d-flex">
+                                                <label class="male_gender">
+                                                    <input type="radio" id="male" name="gender"
+                                                        class="form-control male"><span>{% trans 'Male' %}</span>
+                                                </label>
+                                                <label class="male_gender">
+                                                    <input type="radio" id="female" name="gender"
+                                                        class="form-control female"><span>{% trans 'Female' %}</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label>{% trans 'Disease' %}</label>
+                                            <input type="text" class="form-control" name="disease_name" value="{% if disease %}{{ disease }}{% endif %}" >
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label>{% trans 'Medicine' %}</label>
+                                            <input type="text" class="form-control" name="medi_name" value="{% if medicine %}{{ medicine }}{% endif %}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label>{% trans 'Symptoms' %}</label>
+                                            <div class="select_form">
+                                                <select class="form-control checkbox-select" name="symptoms_name">
+                                                    <option value="">Select Symptoms</option>
+                                                    {% for j in symp_details_id %}
+                                                        <option value="{{k.id}}"{% if k.id == selc_symptm %}selected{% endif %}>{{ k.symptoms }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label>{% trans 'Location' %}</label>
+                                            <input type="text" class="form-control" name="location_name" value="{% if medicine %}{{ medicine }}{% endif %}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label>{% trans 'City' %}</label>
+                                            <input type="text" class="form-control" name="city_name" value="{% if city %}{{ city }}{% endif %}">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12 col-md-3 col-lg-3">
+                                        <div class="form-group">
+                                            <label>{% trans 'State' %}</label>
+                                            <input type="text" class="form-control" name="state_name" value="{% if state %}{{ state }}{% endif %}">
+                                        </div>
+                                    </div>
+                                </div>
+	                            <div class="continue_button">
+	                                <button type="button" class="next">{% trans 'Apply' %}</button>
+	                                <button type="button" class="cancel" id="cancel_btn">{% trans 'Cancel' %}</button>
+	                            </div>
+                            </form>
+                        </div>
+                        <div class="table-responsive ">
+                            <table class="table1 display" id="table_str">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">{% trans 'Case ID' %}</th>
+                                        <th scope="col">{% trans 'Case Name' %}</th>
+                                        <th scope="col">{% trans 'Patient Name' %}</th>
+                                        <th scope="col">{% trans 'Doctor Name' %}</th>
+                                        <th scope="col">{% trans 'Doctor Reg. No' %}</th>
+                                        <th scope="col">{% trans 'Disease' %}</th>
+                                        <th scope="col">{% trans 'Medicine' %}</th>
+                                        <th scope="col">{% trans 'Symptons' %}</th>
+                                        <th scope="col">{% trans 'Status' %}</th>
+                                        <th scope="col"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for a in data_list %}
+                                    <tr>
+                                        <td>
+                                            <div class="caseid">
+{#                                                <label class="check_box">#}
+{#                                                    <input type="checkbox">#}
+{#                                                    <span class="checked"></span>#}
+{#                                                </label>#}
+                                                <span><a href="#">{{ a.case_id }}</a></span>
+                                            </div>
+                                        </td>
+                                        <td>{{ a.case_name }}</td>
+                                        <td>{{ a.patient_name }}</td>
+                                        <td>{{ a.doctor_name }}</td>
+                                        <td>{{ a.doctor_reg_no }}</td>
+                                        <td>{{ a.disease }}</td>
+                                        <td>{{ a.medicine }}</td>
+                                        <td>{{ a.symptoms }}</td>
+                                        <td><button class="accepted">{{ a.status }}</button></td>
+                                        <td><a href="#"><img src={% static "images/edit.svg" %} alt="edit the details"></a></td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="pagination_block d-flex justify-content-between">
+                            <div class="sort">
+                                <div class="sort1">
+                                    <span>Sort By</span>
+                                    <select class="select_the_sort form-control">
+                                        <option>10</option>
+                                        <option>9</option>
+                                        <option>8</option>
+                                        <option>7</option>
+                                        <option>6</option>
+                                        <option>5</option>
+                                        <option>4</option>
+                                        <option>3</option>
+                                        <option>2</option>
+                                        <option>1</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="pagination">
+                                <ul class="d-flex justify-content-between">
+                                    <li><a href="#" class="previous">&lt; Prev</a></li>
+                                    <li><a href="#">1</a></li>
+                                    <li><a href="#" class="current">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#" class="next">Next &gt;</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+{% endblock %}
+
+{% block jsfilesurls %}
+<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script>
+{% endblock %}
+
+{% block custom-js %}
+
+/*********On Click show & hide Advance Filter starts************/
+$(".advance_filter").click(function() {
+    $("#dashboard").toggleClass("active");
+});
+/*********On Click show & hide Advance Filter starts************/
+
+/*********Data Table structure with Pagination Starts************/
+$("#table_str").DataTable( {
+    "bLengthChange": false,
+    language: { search: '', searchPlaceholder: "My Search..." }
+}); 
+{#$('#table_str').DataTable( {#}
+{#	    "searching":true,#}
+{#	    "bLengthChange": false,#}
+{#	     dom: 't',#}
+} );
+/*********Data Table structure with Pagination Ends************/
+
+{% endblock %}
