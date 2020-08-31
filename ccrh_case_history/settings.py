@@ -125,10 +125,10 @@ DATABASES = {
          },
         'NAME': 'ccrh_test',
         'CLIENT': {
-            'host': 'mongodbccrh.mongo.cosmos.azure.com:443',
+            'host': 'mongodbccrh.mongo.cosmos.azure.com',
             'port': 10255,
-            'username': '',
-            'password': '',
+            'username': 'mongodbccrh',
+            'password': 'yESaUzwYVyAywyZl0Tk5aXS0hpRXqXOx4LgwgB8uPYug9ucD12zPZOwiLWQkROe9T5cApooRYTCDgRacQ3cAfA==',
             'authSource': 'admin',
             'authMechanism': 'SCRAM-SHA-1'
         }
