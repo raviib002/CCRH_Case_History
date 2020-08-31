@@ -217,9 +217,9 @@ REST_FRAMEWORK = {
 #Setting below to false bcz db module doesn't support transaction
 IMPORT_EXPORT_USE_TRANSACTIONS = False
 
-CCRH_HOME_URL = 'http://djangotest1.azurewebsites.net:8000/en'
-CCRH_LOGIN_URL = 'http://djangotest1.azurewebsites.net:8000/en/user/login'
+CCRH_HOME_URL = 'http://djangotest1.azurewebsites.net/en'
+CCRH_LOGIN_URL = 'http://djangotest1.azurewebsites.net/en/user/login'
 LOGIN_ERROR_URL    = 'user_profile:login'
 LOGIN_URL    = 'user_profile:login'
-LOGOUT_REDIRECT_URL = 'http://djangotest1.azurewebsites.net:8000/en/'
+LOGOUT_REDIRECT_URL = 'http://djangotest1.azurewebsites.net/en/'
 
