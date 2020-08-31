@@ -26,7 +26,7 @@ SECRET_KEY = 'yxmig_j9ncg00=%k%4_mj9j=k2vr5-+27sxqwfsms+$fphzhs$'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['ccrhch.azurewebsites.net']
 INTERNAL_IPS = ['127.0.0.1']
 SITE_ID = 1
 ADMIN_EMAIL = 'smtp@baryonssoftsolutions.com'
@@ -123,14 +123,14 @@ DATABASES = {
                 }
             },
          },
-        'NAME': 'ccrh',
+        'NAME': 'ccrh_test',
         'CLIENT': {
-            'host': 'localhost',
-            'port': 27017,
-            'username': 'root',
-            'password': 'mongodb',
-            'authSource': 'admin',
-            'authMechanism': 'SCRAM-SHA-1'
+            'host': 'mongodbccrh.mongo.cosmos.azure.com:443',
+            'port': 10255,
+#            'username': '',
+#            'password': '',
+#            'authSource': 'admin',
+#            'authMechanism': 'SCRAM-SHA-1'
         }
     }
 }
@@ -217,9 +217,9 @@ REST_FRAMEWORK = {
 #Setting below to false bcz db module doesn't support transaction
 IMPORT_EXPORT_USE_TRANSACTIONS = False
 
-CCRH_HOME_URL = 'http://127.0.0.1:8000/en'
-CCRH_LOGIN_URL = 'http://127.0.0.1:8000/en/user/login'
+CCRH_HOME_URL = 'http://djangotest1.azurewebsites.net:8000/en'
+CCRH_LOGIN_URL = 'http://djangotest1.azurewebsites.net:8000/en/user/login'
 LOGIN_ERROR_URL    = 'user_profile:login'
 LOGIN_URL    = 'user_profile:login'
-LOGOUT_REDIRECT_URL = 'http://127.0.0.1:8000/en/'
+LOGOUT_REDIRECT_URL = 'http://djangotest1.azurewebsites.net:8000/en/'
 
