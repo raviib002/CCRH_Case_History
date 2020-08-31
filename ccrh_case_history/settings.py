@@ -127,10 +127,10 @@ DATABASES = {
         'CLIENT': {
             'host': 'mongodbccrh.mongo.cosmos.azure.com:443',
             'port': 10255,
-#            'username': '',
-#            'password': '',
-#            'authSource': 'admin',
-#            'authMechanism': 'SCRAM-SHA-1'
+            'username': '',
+            'password': '',
+            'authSource': 'admin',
+            'authMechanism': 'SCRAM-SHA-1'
         }
     }
 }
