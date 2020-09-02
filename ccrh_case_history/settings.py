@@ -123,12 +123,12 @@ DATABASES = {
                 }
             },
          },
-        'NAME': 'ccrh_test',
+        'NAME': 'ccrhmongo',
         'CLIENT': {
             'host': 'mongodbccrh.mongo.cosmos.azure.com',
             'port': 10255,
-            'username': 'mongodbccrh',
-            'password': 'yESaUzwYVyAywyZl0Tk5aXS0hpRXqXOx4LgwgB8uPYug9ucD12zPZOwiLWQkROe9T5cApooRYTCDgRacQ3cAfA==',
+            'username': 'ccrhmongo',
+            'password': 'pbK6PfiZVWNvpM9cVkkYjxm1jSqSygPrf4Ephvh3QyDFRydgdSV5RtYeBjyQW9H7gXe8paWW5Nd6LIPFmpY7LQ==',
             'authSource': 'admin',
             'authMechanism': 'SCRAM-SHA-1'
         }
@@ -217,9 +217,9 @@ REST_FRAMEWORK = {
 #Setting below to false bcz db module doesn't support transaction
 IMPORT_EXPORT_USE_TRANSACTIONS = False
 
-CCRH_HOME_URL = 'http://djangotest1.azurewebsites.net/en'
-CCRH_LOGIN_URL = 'http://djangotest1.azurewebsites.net/en/user/login'
+CCRH_HOME_URL = 'https://ccrh.azurewebsites.net/en'
+CCRH_LOGIN_URL = 'https://ccrh.azurewebsites.net/en/user/login'
 LOGIN_ERROR_URL    = 'user_profile:login'
 LOGIN_URL    = 'user_profile:login'
-LOGOUT_REDIRECT_URL = 'http://djangotest1.azurewebsites.net/en/'
+LOGOUT_REDIRECT_URL = 'https://ccrh.azurewebsites.net/en/'
 
